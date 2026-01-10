@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/game/domain/entities/entities.dart';
+import '../../features/game/presentation/pages/game_intro_page.dart';
 import '../../features/game/presentation/pages/game_over_page.dart';
 import '../../features/game/presentation/pages/game_page.dart';
-import '../../features/game/presentation/pages/game_intro_page.dart';
 import '../../features/game/presentation/providers/game_provider.dart';
+import '../ui/widgets/widgets.dart';
+import '../observer/app_navigator_observer.dart';
 
 part 'app_router.g.dart';
 
@@ -24,6 +25,8 @@ GoRouter appRouter(AppRouterRef ref) {
 
   return GoRouter(
     initialLocation: AppRoutes.home,
+    debugLogDiagnostics: true,
+    observers: [AppNavigatorObserver()],
     refreshListenable: routerNotifier,
     redirect: (context, state) {
       final gameStatus = routerNotifier.value;
@@ -59,10 +62,8 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) => const GameOverPage(),
       ),
     ],
-    errorBuilder: (context, state) => Scaffold(
-      body: Center(
-        child: Text('Page not found: ${state.uri}'),
-      ),
+    errorBuilder: (context, state) => UnknownPage(
+      path: state.uri.toString(),
     ),
   );
 }

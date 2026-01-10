@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'core/ui/widgets/widgets.dart';
 import 'features/game/presentation/providers/game_provider.dart';
 
 /// Main app widget wrapped with ProviderScope
@@ -36,9 +37,7 @@ class AppLoader extends ConsumerWidget {
         theme: AppTheme.theme,
         debugShowCheckedModeBanner: false,
         home: const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
+          body: AppLoading(),
         ),
       ),
       error: (error, stack) => MaterialApp(
