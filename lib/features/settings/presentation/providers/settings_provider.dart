@@ -12,16 +12,14 @@ part 'settings_provider.g.dart';
 
 /// Provider for the settings local data source
 @Riverpod(keepAlive: true)
-SettingsLocalDataSource settingsLocalDataSource(
-  SettingsLocalDataSourceRef ref,
-) {
+SettingsLocalDataSource settingsLocalDataSource(Ref ref) {
   final prefs = ref.watch(sharedPreferencesProvider).requireValue;
   return SettingsLocalDataSource(prefs);
 }
 
 /// Provider for the settings repository
 @Riverpod(keepAlive: true)
-SettingsRepository settingsRepository(SettingsRepositoryRef ref) {
+SettingsRepository settingsRepository(Ref ref) {
   final dataSource = ref.watch(settingsLocalDataSourceProvider);
   return SettingsRepositoryImpl(dataSource);
 }
@@ -45,7 +43,7 @@ class LocaleNotifier extends _$LocaleNotifier {
 
 /// Provider for the actual Locale to use in MaterialApp
 @Riverpod(keepAlive: true)
-Locale? appLocale(AppLocaleRef ref) {
-  final appLocale = ref.watch(localeNotifierProvider);
+Locale? appLocale(Ref ref) {
+  final appLocale = ref.watch(localeProvider);
   return appLocale.toLocale();
 }

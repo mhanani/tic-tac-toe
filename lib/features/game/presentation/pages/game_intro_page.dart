@@ -26,7 +26,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
     super.initState();
     // Load saved scores and check for ongoing game on init
     Future.microtask(() async {
-      final notifier = ref.read(gameNotifierProvider.notifier);
+      final notifier = ref.read(gameProvider.notifier);
       await notifier.loadScores();
 
       // Check if there's an ongoing game
@@ -39,7 +39,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
 
   @override
   Widget build(BuildContext context) {
-    final game = ref.watch(gameNotifierProvider);
+    final game = ref.watch(gameProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -99,20 +99,20 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
   }
 
   void _startPlayerVsPlayer() {
-    ref.read(gameNotifierProvider.notifier).startGame(GameMode.playerVsPlayer);
+    ref.read(gameProvider.notifier).startGame(GameMode.playerVsPlayer);
     context.go(AppRoutes.game);
   }
 
   void _startPlayerVsAi(AiDifficulty difficulty) {
     ref
-        .read(gameNotifierProvider.notifier)
+        .read(gameProvider.notifier)
         .startGame(GameMode.playerVsAi, difficulty: difficulty);
     context.go(AppRoutes.game);
   }
 
   void _showDifficultyDialog() {
     final l10n = context.l10n;
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => CustomDialog(
         title: l10n.selectDifficulty,
@@ -141,7 +141,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
 
   void _showResetDialog() {
     final l10n = context.l10n;
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppTheme.surfaceColor,
@@ -154,7 +154,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              ref.read(gameNotifierProvider.notifier).resetAll();
+              ref.read(gameProvider.notifier).resetAll();
               Navigator.pop(context);
             },
             child: Text(l10n.reset),
@@ -167,10 +167,11 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
   void _showResumeGameDialog(Game savedGame) {
     final l10n = context.l10n;
     final modeName = savedGame.mode.localizedName(context);
-    showDialog(
+    final router = GoRouter.of(context);
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (context) => CustomDialog(
+      builder: (dialogContext) => CustomDialog(
         title: l10n.resumeGameTitle,
         children: [
           Text(
@@ -184,8 +185,8 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
               Expanded(
                 child: TextButton(
                   onPressed: () {
-                    ref.read(gameNotifierProvider.notifier).clearSavedGame();
-                    Navigator.pop(context);
+                    ref.read(gameProvider.notifier).clearSavedGame();
+                    Navigator.pop(dialogContext);
                   },
                   child: Text(l10n.delete),
                 ),
@@ -194,12 +195,10 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () async {
-                    Navigator.pop(context);
-                    await ref
-                        .read(gameNotifierProvider.notifier)
-                        .loadSavedGame();
+                    Navigator.pop(dialogContext);
+                    await ref.read(gameProvider.notifier).loadSavedGame();
                     if (mounted) {
-                      context.go(AppRoutes.game);
+                      router.go(AppRoutes.game);
                     }
                   },
                   child: Text(l10n.resume),
@@ -241,7 +240,7 @@ class _GameModeButton extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(AppTheme.spacingSm),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.2),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
                 child: Icon(icon, color: AppTheme.primaryColor, size: 28),

@@ -79,12 +79,6 @@ fvm flutter run
 ### Development Commands
 
 ```bash
-# Watch for code changes and regenerate
-fvm dart run build_runner watch --delete-conflicting-outputs
-
-# Regenerate localizations after editing ARB files
-fvm flutter gen-l10n
-
 # Analyze code
 fvm flutter analyze
 

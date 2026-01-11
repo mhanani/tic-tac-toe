@@ -26,9 +26,9 @@ class ScoreWidget extends StatelessWidget {
         vertical: AppTheme.spacingSm,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -51,7 +51,7 @@ class ScoreBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final game = ref.watch(gameNotifierProvider);
+    final game = ref.watch(gameProvider);
     final l10n = context.l10n;
 
     return Row(

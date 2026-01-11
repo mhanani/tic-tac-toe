@@ -12,42 +12,42 @@ part 'game_provider.g.dart';
 
 /// Provider for SharedPreferences
 @Riverpod(keepAlive: true)
-Future<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) async {
+Future<SharedPreferences> sharedPreferences(Ref ref) async {
   return SharedPreferences.getInstance();
 }
 
 /// Provider for the game local data source
 @Riverpod(keepAlive: true)
-GameLocalDataSource gameLocalDataSource(GameLocalDataSourceRef ref) {
+GameLocalDataSource gameLocalDataSource(Ref ref) {
   final prefs = ref.watch(sharedPreferencesProvider).requireValue;
   return GameLocalDataSourceImpl(prefs);
 }
 
 /// Provider for the game repository
 @Riverpod(keepAlive: true)
-GameRepository gameRepository(GameRepositoryRef ref) {
+GameRepository gameRepository(Ref ref) {
   final dataSource = ref.watch(gameLocalDataSourceProvider);
   return GameRepositoryImpl(dataSource);
 }
 
 /// Provider for use cases
 @riverpod
-PlayMove playMoveUseCase(PlayMoveUseCaseRef ref) => PlayMove();
+PlayMove playMoveUseCase(Ref ref) => PlayMove();
 
 @riverpod
-CheckWinner checkWinnerUseCase(CheckWinnerUseCaseRef ref) => CheckWinner();
+CheckWinner checkWinnerUseCase(Ref ref) => CheckWinner();
 
 @riverpod
-GetAiMove getAiMoveUseCase(GetAiMoveUseCaseRef ref) => GetAiMove();
+GetAiMove getAiMoveUseCase(Ref ref) => GetAiMove();
 
 @riverpod
-SaveGame saveGameUseCase(SaveGameUseCaseRef ref) {
+SaveGame saveGameUseCase(Ref ref) {
   final repository = ref.watch(gameRepositoryProvider);
   return SaveGame(repository);
 }
 
 @riverpod
-LoadGame loadGameUseCase(LoadGameUseCaseRef ref) {
+LoadGame loadGameUseCase(Ref ref) {
   final repository = ref.watch(gameRepositoryProvider);
   return LoadGame(repository);
 }
@@ -65,7 +65,7 @@ class GameRouterNotifier extends ValueNotifier<GameStatus> {
 
 /// Provider for the router notifier
 @Riverpod(keepAlive: true)
-GameRouterNotifier gameRouterNotifier(GameRouterNotifierRef ref) {
+GameRouterNotifier gameRouter(Ref ref) {
   return GameRouterNotifier();
 }
 
@@ -82,7 +82,7 @@ class GameNotifier extends _$GameNotifier {
   GetAiMove get _getAiMove => ref.read(getAiMoveUseCaseProvider);
 
   void _updateRouterNotifier() {
-    ref.read(gameRouterNotifierProvider).update(state.status);
+    ref.read(gameRouterProvider).update(state.status);
   }
 
   /// Starts a new game with the given mode and optional difficulty (for AI mode)

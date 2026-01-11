@@ -3,52 +3,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tic_tac_toe/core/utils/logger.dart';
 
 /// Provider observer that logs state changes
-class AppProviderObserver extends ProviderObserver {
+final class AppProviderObserver extends ProviderObserver {
   @override
   void didUpdateProvider(
-    ProviderBase<Object?> provider,
+    ProviderObserverContext context,
     Object? previousValue,
     Object? newValue,
-    ProviderContainer container,
   ) {
     logger.d(
-      '${provider.name ?? provider.runtimeType} updated',
+      '${context.provider.name ?? context.provider.runtimeType} updated',
       tag: 'Provider',
     );
   }
 
   @override
-  void didAddProvider(
-    ProviderBase<Object?> provider,
-    Object? value,
-    ProviderContainer container,
-  ) {
+  void didAddProvider(ProviderObserverContext context, Object? value) {
     logger.d(
-      '${provider.name ?? provider.runtimeType} created',
+      '${context.provider.name ?? context.provider.runtimeType} created',
       tag: 'Provider',
     );
   }
 
   @override
-  void didDisposeProvider(
-    ProviderBase<Object?> provider,
-    ProviderContainer container,
-  ) {
+  void didDisposeProvider(ProviderObserverContext context) {
     logger.d(
-      '${provider.name ?? provider.runtimeType} disposed',
+      '${context.provider.name ?? context.provider.runtimeType} disposed',
       tag: 'Provider',
     );
   }
 
   @override
   void providerDidFail(
-    ProviderBase<Object?> provider,
+    ProviderObserverContext context,
     Object error,
     StackTrace stackTrace,
-    ProviderContainer container,
   ) {
     logger.e(
-      '${provider.name ?? provider.runtimeType} failed',
+      '${context.provider.name ?? context.provider.runtimeType} failed',
       tag: 'Provider',
       error: error,
       stackTrace: stackTrace,

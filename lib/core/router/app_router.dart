@@ -22,8 +22,8 @@ abstract class AppRoutes {
 
 /// Provider for the GoRouter instance
 @Riverpod(keepAlive: true)
-GoRouter appRouter(AppRouterRef ref) {
-  final routerNotifier = ref.watch(gameRouterNotifierProvider);
+GoRouter appRouter(Ref ref) {
+  final routerNotifier = ref.watch(gameRouterProvider);
 
   return GoRouter(
     initialLocation: AppRoutes.home,

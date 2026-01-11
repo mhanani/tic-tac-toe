@@ -15,7 +15,7 @@ class GamePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final game = ref.watch(gameNotifierProvider);
+    final game = ref.watch(gameProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,8 +27,7 @@ class GamePage extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () =>
-                ref.read(gameNotifierProvider.notifier).resetGame(),
+            onPressed: () => ref.read(gameProvider.notifier).resetGame(),
             tooltip: context.l10n.newGame,
           ),
         ],
@@ -56,7 +55,7 @@ class GamePage extends ConsumerWidget {
                   board: game.board,
                   status: game.status,
                   onCellTap: (index) =>
-                      ref.read(gameNotifierProvider.notifier).playMove(index),
+                      ref.read(gameProvider.notifier).playMove(index),
                 ),
               ),
               const Spacer(flex: 2),
@@ -90,9 +89,9 @@ class _CurrentPlayerIndicator extends StatelessWidget {
         vertical: AppTheme.spacingSm,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppTheme.radiusXl),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

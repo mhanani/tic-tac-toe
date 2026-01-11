@@ -15,7 +15,7 @@ class GameOverPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final game = ref.watch(gameNotifierProvider);
+    final game = ref.watch(gameProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -69,9 +69,7 @@ class GameOverPage extends ConsumerWidget {
                           const SizedBox(width: AppTheme.spacingMd),
                           ElevatedButton.icon(
                             onPressed: () {
-                              ref
-                                  .read(gameNotifierProvider.notifier)
-                                  .resetGame();
+                              ref.read(gameProvider.notifier).resetGame();
                               context.go(AppRoutes.game);
                             },
                             icon: const Icon(Icons.replay),
@@ -126,9 +124,9 @@ class _GameResult extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(AppTheme.spacingLg),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             shape: BoxShape.circle,
-            border: Border.all(color: color.withOpacity(0.3), width: 3),
+            border: Border.all(color: color.withValues(alpha: 0.3), width: 3),
           ),
           child: Icon(icon, size: 64, color: color),
         ),

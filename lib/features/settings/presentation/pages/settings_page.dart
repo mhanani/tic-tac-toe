@@ -14,7 +14,7 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentLocale = ref.watch(localeNotifierProvider);
+    final currentLocale = ref.watch(localeProvider);
     final l10n = context.l10n;
 
     return Scaffold(
@@ -61,6 +61,6 @@ class SettingsPage extends ConsumerWidget {
   }
 
   void _setLocale(WidgetRef ref, AppLocale locale) {
-    ref.read(localeNotifierProvider.notifier).setLocale(locale);
+    ref.read(localeProvider.notifier).setLocale(locale);
   }
 }

@@ -24,12 +24,13 @@ class CellWidget extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
           color: isWinningCell
-              ? AppTheme.primaryColor.withOpacity(0.3)
+              ? AppTheme.primaryColor.withValues(alpha: 0.3)
               : AppTheme.cardColor,
           borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           border: Border.all(
-            color:
-                isWinningCell ? AppTheme.primaryColor : AppTheme.surfaceColor,
+            color: isWinningCell
+                ? AppTheme.primaryColor
+                : AppTheme.surfaceColor,
             width: 2,
           ),
         ),
