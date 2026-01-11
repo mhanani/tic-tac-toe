@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../../core/extensions/extensions.dart';
+import 'package:tic_tac_toe/core/extensions/extensions.dart';
 
 /// Represents the game mode
 enum GameMode {

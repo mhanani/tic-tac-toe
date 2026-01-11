@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/game_model.dart';
+import 'package:tic_tac_toe/features/game/data/models/game_model.dart';
 
 /// Local data source for game persistence using SharedPreferences
 abstract class GameLocalDataSource {

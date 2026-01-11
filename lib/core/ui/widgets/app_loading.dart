@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/app_theme.dart';
+import 'package:tic_tac_toe/core/theme/app_theme.dart';
 
 /// Reusable loading indicator widget
 class AppLoading extends StatelessWidget {

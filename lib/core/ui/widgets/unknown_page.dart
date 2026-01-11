@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../extensions/extensions.dart';
-import '../../router/app_router.dart';
-import '../../theme/app_theme.dart';
+import 'package:tic_tac_toe/core/extensions/extensions.dart';
+import 'package:tic_tac_toe/core/router/app_router.dart';
+import 'package:tic_tac_toe/core/theme/app_theme.dart';
 
 /// Page displayed when a route is not found
 class UnknownPage extends StatelessWidget {

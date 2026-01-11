@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/extensions/extensions.dart';
-import '../../../../core/router/app_router.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/ui/widgets/custom_dialog.dart';
-import '../../domain/entities/ai_difficulty.dart';
-import '../../domain/entities/game.dart';
-import '../../domain/entities/game_mode.dart';
-import '../providers/game_provider.dart';
-import '../widgets/score_widget.dart';
+import 'package:tic_tac_toe/core/extensions/extensions.dart';
+import 'package:tic_tac_toe/core/router/app_router.dart';
+import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_dialog.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/ai_difficulty.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/game.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/game_mode.dart';
+import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
+import 'package:tic_tac_toe/features/game/presentation/widgets/score_widget.dart';
 
 /// Game intro page with mode selection
 class GameIntroPage extends ConsumerStatefulWidget {

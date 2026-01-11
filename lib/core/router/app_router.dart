@@ -1,13 +1,13 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/game/domain/entities/entities.dart';
-import '../../features/game/presentation/pages/game_intro_page.dart';
-import '../../features/game/presentation/pages/game_over_page.dart';
-import '../../features/game/presentation/pages/game_page.dart';
-import '../../features/game/presentation/providers/game_provider.dart';
-import '../ui/widgets/widgets.dart';
-import '../observer/app_navigator_observer.dart';
+import 'package:tic_tac_toe/core/observer/app_navigator_observer.dart';
+import 'package:tic_tac_toe/core/ui/widgets/widgets.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
+import 'package:tic_tac_toe/features/game/presentation/pages/game_intro_page.dart';
+import 'package:tic_tac_toe/features/game/presentation/pages/game_over_page.dart';
+import 'package:tic_tac_toe/features/game/presentation/pages/game_page.dart';
+import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
 
 part 'app_router.g.dart';
 

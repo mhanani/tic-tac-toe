@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/extensions/extensions.dart';
-import '../../../../core/router/app_router.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/entities.dart';
-import '../providers/game_provider.dart';
-import '../widgets/widgets.dart';
+import 'package:tic_tac_toe/core/extensions/extensions.dart';
+import 'package:tic_tac_toe/core/router/app_router.dart';
+import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
+import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
+import 'package:tic_tac_toe/features/game/presentation/widgets/widgets.dart';
 
 /// Game over page showing the result
 class GameOverPage extends ConsumerWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/player.dart';
+import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/player.dart';
 
 /// A single cell on the game board
 class CellWidget extends StatelessWidget {

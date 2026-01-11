@@ -1,4 +1,4 @@
-import '../entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 
 /// Use case for playing a move on the board
 class PlayMove {

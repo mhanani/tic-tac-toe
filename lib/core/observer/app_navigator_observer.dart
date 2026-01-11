@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/logger.dart';
+import 'package:tic_tac_toe/core/utils/logger.dart';
 
 /// Navigator observer that logs route changes
 class AppNavigatorObserver extends NavigatorObserver {

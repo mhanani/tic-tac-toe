@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../domain/entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 
 part 'game_model.freezed.dart';
 part 'game_model.g.dart';

@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/datasources/game_local_datasource.dart';
-import '../../data/repositories/game_repository_impl.dart';
-import '../../domain/entities/entities.dart';
-import '../../domain/repositories/game_repository.dart';
-import '../../domain/usecases/usecases.dart';
+import 'package:tic_tac_toe/features/game/data/datasources/game_local_datasource.dart';
+import 'package:tic_tac_toe/features/game/data/repositories/game_repository_impl.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/repositories/game_repository.dart';
+import 'package:tic_tac_toe/features/game/domain/usecases/usecases.dart';
 
 part 'game_provider.g.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/logger.dart';
+import 'package:tic_tac_toe/core/utils/logger.dart';
 
 /// Provider observer that logs state changes
 class AppProviderObserver extends ProviderObserver {

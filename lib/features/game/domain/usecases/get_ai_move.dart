@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 
 /// Use case for getting the AI's move
 /// Supports two difficulty modes:

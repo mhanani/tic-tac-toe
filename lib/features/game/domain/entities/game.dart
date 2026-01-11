@@ -1,8 +1,8 @@
-import 'ai_difficulty.dart';
-import 'board.dart';
-import 'game_mode.dart';
-import 'game_status.dart';
-import 'player.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/ai_difficulty.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/board.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/game_mode.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/game_status.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/player.dart';
 
 /// Represents the complete game state
 class Game {

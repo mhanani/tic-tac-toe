@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/entities.dart';
-import 'cell_widget.dart';
+import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
+import 'package:tic_tac_toe/features/game/presentation/widgets/cell_widget.dart';
 
 /// The 3x3 game board widget
 class BoardWidget extends StatelessWidget {

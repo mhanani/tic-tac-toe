@@ -1,7 +1,7 @@
-import '../../domain/entities/entities.dart';
-import '../../domain/repositories/game_repository.dart';
-import '../datasources/game_local_datasource.dart';
-import '../models/game_model.dart';
+import 'package:tic_tac_toe/features/game/data/datasources/game_local_datasource.dart';
+import 'package:tic_tac_toe/features/game/data/models/game_model.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/repositories/game_repository.dart';
 
 /// Implementation of GameRepository using local data source
 class GameRepositoryImpl implements GameRepository {

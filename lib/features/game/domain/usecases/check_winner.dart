@@ -1,4 +1,4 @@
-import '../entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 
 /// Use case for checking if there's a winner or draw
 class CheckWinner {

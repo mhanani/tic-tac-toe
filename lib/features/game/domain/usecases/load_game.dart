@@ -1,5 +1,5 @@
-import '../entities/entities.dart';
-import '../repositories/game_repository.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/repositories/game_repository.dart';
 
 /// Use case for loading a saved game
 class LoadGame {

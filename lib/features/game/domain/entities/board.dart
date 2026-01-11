@@ -1,4 +1,4 @@
-import 'player.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/player.dart';
 
 /// Represents the 3x3 game board
 class Board {

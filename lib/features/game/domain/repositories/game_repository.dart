@@ -1,4 +1,4 @@
-import '../entities/entities.dart';
+import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 
 /// Abstract repository interface for game persistence
 abstract class GameRepository {
