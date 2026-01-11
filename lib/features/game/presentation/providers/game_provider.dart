@@ -153,7 +153,7 @@ class GameNotifier extends _$GameNotifier {
   void resetAll() {
     state = Game.initial(mode: state.mode);
     _updateRouterNotifier();
-    _clearGame();
+    clearSavedGame();
   }
 
   /// Loads a saved game
@@ -177,12 +177,24 @@ class GameNotifier extends _$GameNotifier {
     );
   }
 
+  /// Checks if there's a saved game in progress
+  /// Returns the saved game if it exists and is in progress, null otherwise
+  Future<Game?> checkForSavedGameInProgress() async {
+    final loadGame = ref.read(loadGameUseCaseProvider);
+    final savedGame = await loadGame();
+    if (savedGame != null && savedGame.status == GameStatus.inProgress) {
+      return savedGame;
+    }
+    return null;
+  }
+
   void _saveGame() {
     final saveGame = ref.read(saveGameUseCaseProvider);
     saveGame(state);
   }
 
-  void _clearGame() {
+  /// Clears the saved game from storage (does not reset state)
+  void clearSavedGame() {
     final repository = ref.read(gameRepositoryProvider);
     repository.clearGame();
   }

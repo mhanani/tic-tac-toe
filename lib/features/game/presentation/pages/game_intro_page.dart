@@ -6,6 +6,7 @@ import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/ui/widgets/custom_dialog.dart';
 import '../../domain/entities/ai_difficulty.dart';
+import '../../domain/entities/game.dart';
 import '../../domain/entities/game_mode.dart';
 import '../providers/game_provider.dart';
 import '../widgets/score_widget.dart';
@@ -22,9 +23,16 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
   @override
   void initState() {
     super.initState();
-    // Load saved scores on init
-    Future.microtask(() {
-      ref.read(gameNotifierProvider.notifier).loadScores();
+    // Load saved scores and check for ongoing game on init
+    Future.microtask(() async {
+      final notifier = ref.read(gameNotifierProvider.notifier);
+      await notifier.loadScores();
+
+      // Check if there's an ongoing game
+      final savedGame = await notifier.checkForSavedGameInProgress();
+      if (savedGame != null && mounted) {
+        _showResumeGameDialog(savedGame);
+      }
     });
   }
 
@@ -141,6 +149,52 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
               Navigator.pop(context);
             },
             child: const Text('Reset'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showResumeGameDialog(Game savedGame) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => CustomDialog(
+        title: 'Resume Game?',
+        children: [
+          Text(
+            'You have an ongoing ${savedGame.mode.displayName} game.',
+            style: AppTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppTheme.spacingLg),
+          Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    ref.read(gameNotifierProvider.notifier).clearSavedGame();
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Delete'),
+                ),
+              ),
+              const SizedBox(width: AppTheme.spacingSm),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await ref
+                        .read(gameNotifierProvider.notifier)
+                        .loadSavedGame();
+                    if (mounted) {
+                      context.go(AppRoutes.game);
+                    }
+                  },
+                  child: const Text('Resume'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
