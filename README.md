@@ -8,6 +8,7 @@ A Flutter Tic Tac Toe game built with Clean Architecture and Riverpod.
 - **Smart AI**: Uses strategic move selection (win/block/center/corner strategy)
 - **Score Tracking**: Persistent win/loss/draw statistics
 - **Game Persistence**: Save and resume games using SharedPreferences
+- **Settings**: Language selection (English, French, or System default)
 - **Internationalization**: English and French language support
 - **Modern UI**: Dark theme with smooth animations
 
@@ -26,14 +27,18 @@ lib/
 │   ├── router/                        # GoRouter configuration
 │   ├── theme/                         # Design system
 │   ├── ui/
-│   │   ├── widgets/                   # Shared UI components (loading, error)
+│   │   ├── widgets/                   # Shared UI components (loading, dialogs, etc.)
 │   │   └── animations/                # Shared animations
 │   └── utils/                         # Logger and utilities
 └── features/
-    └── game/
-        ├── data/                      # Models, repositories, datasources
-        ├── domain/                    # Entities, use cases, repository interfaces
-        └── presentation/              # Pages, widgets, providers
+    ├── game/
+    │   ├── data/                      # Models, repositories, datasources
+    │   ├── domain/                    # Entities, use cases, repository interfaces
+    │   └── presentation/              # Pages, widgets, providers
+    └── settings/
+        ├── data/                      # Settings repository, datasource
+        ├── domain/                    # AppLocale entity, repository interface
+        └── presentation/              # Settings page, providers, widgets
 ```
 
 ### Key Architectural Decisions
@@ -118,18 +123,18 @@ Text(context.l10n.appTitle)
 
 ### Domain Layer
 
-- **Entities**: `Player`, `Board`, `Game`, `GameMode`, `GameStatus`, `AiDifficulty`
+- **Entities**: `Player`, `Board`, `Game`, `GameMode`, `GameStatus`, `AiDifficulty`, `AppLocale`
 - **Use Cases**: `PlayMove`, `CheckWinner`, `GetAiMove`, `SaveGame`, `LoadGame`
-- **Repository Interface**: `GameRepository`
+- **Repository Interfaces**: `GameRepository`, `SettingsRepository`
 
 ### Data Layer
 
 - **Models**: `GameModel` (Freezed with JSON serialization)
-- **Data Sources**: `GameLocalDataSource` (SharedPreferences wrapper)
-- **Repository Implementation**: `GameRepositoryImpl`
+- **Data Sources**: `GameLocalDataSource`, `SettingsLocalDataSource` (SharedPreferences wrappers)
+- **Repository Implementations**: `GameRepositoryImpl`, `SettingsRepositoryImpl`
 
 ### Presentation Layer
 
-- **Pages**: `GameIntroPage`, `GamePage`, `GameOverPage`
-- **Widgets**: `BoardWidget`, `CellWidget`, `ScoreWidget`
-- **Providers**: `GameNotifier` for game state management
+- **Pages**: `GameIntroPage`, `GamePage`, `GameOverPage`, `SettingsPage`
+- **Widgets**: `BoardWidget`, `CellWidget`, `ScoreWidget`, `LanguageTile`
+- **Providers**: `GameNotifier` for game state, `LocaleNotifier` for language settings
