@@ -204,5 +204,30 @@
   "goHome": "Go Home",
   "@goHome": {
     "description": "Button to go back to home"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings page title"
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
+
+  "english": "English",
+  "@english": {
+    "description": "English language option"
+  },
+
+  "french": "French",
+  "@french": {
+    "description": "French language option"
+  },
+
+  "systemDefault": "System Default",
+  "@systemDefault": {
+    "description": "Follow system locale option"
   }
 }

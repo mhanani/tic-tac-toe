@@ -38,5 +38,10 @@
   "drawsLabel": "Égalités",
   "pageNotFound": "Page introuvable",
   "pageNotFoundMessage": "La page « {path} » n'existe pas.",
-  "goHome": "Retour à l'accueil"
+  "goHome": "Retour à l'accueil",
+  "settings": "Paramètres",
+  "language": "Langue",
+  "english": "Anglais",
+  "french": "Français",
+  "systemDefault": "Par défaut du système"
 }

@@ -8,6 +8,7 @@ import 'package:tic_tac_toe/features/game/presentation/pages/game_intro_page.dar
 import 'package:tic_tac_toe/features/game/presentation/pages/game_over_page.dart';
 import 'package:tic_tac_toe/features/game/presentation/pages/game_page.dart';
 import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
+import 'package:tic_tac_toe/features/settings/presentation/pages/settings_page.dart';
 
 part 'app_router.g.dart';
 
@@ -16,6 +17,7 @@ abstract class AppRoutes {
   static const home = '/';
   static const game = '/game';
   static const gameOver = '/game-over';
+  static const settings = '/settings';
 }
 
 /// Provider for the GoRouter instance
@@ -61,9 +63,12 @@ GoRouter appRouter(AppRouterRef ref) {
         name: 'gameOver',
         builder: (context, state) => const GameOverPage(),
       ),
+      GoRoute(
+        path: AppRoutes.settings,
+        name: 'settings',
+        builder: (context, state) => const SettingsPage(),
+      ),
     ],
-    errorBuilder: (context, state) => UnknownPage(
-      path: state.uri.toString(),
-    ),
+    errorBuilder: (context, state) => UnknownPage(path: state.uri.toString()),
   );
 }

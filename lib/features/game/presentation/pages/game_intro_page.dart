@@ -42,9 +42,19 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
     final game = ref.watch(gameNotifierProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: context.l10n.settings,
+            onPressed: () => context.push(AppRoutes.settings),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(AppTheme.spacingLg),
+          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingLg),
           child: Column(
             children: [
               const Spacer(),
