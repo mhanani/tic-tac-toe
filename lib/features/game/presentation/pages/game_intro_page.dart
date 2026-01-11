@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/extensions.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/ui/widgets/custom_dialog.dart';
@@ -48,31 +49,27 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
             children: [
               const Spacer(),
               // Title
-              const Text('Tic Tac Toe', style: AppTheme.headingLarge),
+              Text(context.l10n.appTitle, style: AppTheme.headingLarge),
               const SizedBox(height: AppTheme.spacingSm),
-              Text('Choose your game mode', style: AppTheme.bodyMedium),
+              Text(context.l10n.chooseGameMode, style: AppTheme.bodyMedium),
               const SizedBox(height: AppTheme.spacingXxl),
 
               // Score board
-              ScoreBoard(
-                xWins: game.xWins,
-                oWins: game.oWins,
-                draws: game.draws,
-              ),
+              const ScoreBoard(),
               const SizedBox(height: AppTheme.spacingXxl),
 
               // Game mode buttons
               _GameModeButton(
                 icon: Icons.people,
-                title: 'Player vs Player',
-                subtitle: 'Play with a friend locally',
+                title: context.l10n.playerVsPlayer,
+                subtitle: context.l10n.playerVsPlayerSubtitle,
                 onTap: _startPlayerVsPlayer,
               ),
               const SizedBox(height: AppTheme.spacingMd),
               _GameModeButton(
                 icon: Icons.smart_toy,
-                title: 'Player vs AI',
-                subtitle: 'Challenge the computer',
+                title: context.l10n.playerVsAi,
+                subtitle: context.l10n.playerVsAiSubtitle,
                 onTap: _showDifficultyDialog,
               ),
               const Spacer(flex: 2),
@@ -82,7 +79,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
                 TextButton.icon(
                   onPressed: () => _showResetDialog(),
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Reset Scores'),
+                  label: Text(context.l10n.resetScores),
                 ),
             ],
           ),
@@ -104,14 +101,15 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
   }
 
   void _showDifficultyDialog() {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (context) => CustomDialog(
-        title: 'Select Difficulty',
+        title: l10n.selectDifficulty,
         children: [
           _DifficultyOption(
-            title: 'Chill',
-            subtitle: 'Relaxed gameplay',
+            title: l10n.difficultyChill,
+            subtitle: l10n.difficultyChillSubtitle,
             onTap: () {
               Navigator.pop(context);
               _startPlayerVsAi(AiDifficulty.chill);
@@ -119,8 +117,8 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
           ),
           const SizedBox(height: AppTheme.spacingSm),
           _DifficultyOption(
-            title: 'Expert',
-            subtitle: 'Strategic AI',
+            title: l10n.difficultyExpert,
+            subtitle: l10n.difficultyExpertSubtitle,
             onTap: () {
               Navigator.pop(context);
               _startPlayerVsAi(AiDifficulty.expert);
@@ -132,23 +130,24 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
   }
 
   void _showResetDialog() {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppTheme.surfaceColor,
-        title: const Text('Reset Scores?'),
-        content: const Text('This will reset all win/loss/draw statistics.'),
+        title: Text(l10n.resetScoresTitle),
+        content: Text(l10n.resetScoresMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () {
               ref.read(gameNotifierProvider.notifier).resetAll();
               Navigator.pop(context);
             },
-            child: const Text('Reset'),
+            child: Text(l10n.reset),
           ),
         ],
       ),
@@ -156,14 +155,16 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
   }
 
   void _showResumeGameDialog(Game savedGame) {
+    final l10n = context.l10n;
+    final modeName = savedGame.mode.localizedName(context);
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => CustomDialog(
-        title: 'Resume Game?',
+        title: l10n.resumeGameTitle,
         children: [
           Text(
-            'You have an ongoing ${savedGame.mode.displayName} game.',
+            l10n.resumeGameMessage(modeName),
             style: AppTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -176,7 +177,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
                     ref.read(gameNotifierProvider.notifier).clearSavedGame();
                     Navigator.pop(context);
                   },
-                  child: const Text('Delete'),
+                  child: Text(l10n.delete),
                 ),
               ),
               const SizedBox(width: AppTheme.spacingSm),
@@ -191,7 +192,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
                       context.go(AppRoutes.game);
                     }
                   },
-                  child: const Text('Resume'),
+                  child: Text(l10n.resume),
                 ),
               ),
             ],

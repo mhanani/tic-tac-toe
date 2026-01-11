@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/extensions.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/entities.dart';
@@ -22,13 +23,13 @@ class GamePage extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.go(AppRoutes.home),
         ),
-        title: Text(game.mode.displayName),
+        title: Text(game.mode.localizedName(context)),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () =>
                 ref.read(gameNotifierProvider.notifier).resetGame(),
-            tooltip: 'New Game',
+            tooltip: context.l10n.newGame,
           ),
         ],
       ),
@@ -38,11 +39,7 @@ class GamePage extends ConsumerWidget {
           child: Column(
             children: [
               // Score board
-              ScoreBoard(
-                xWins: game.xWins,
-                oWins: game.oWins,
-                draws: game.draws,
-              ),
+              const ScoreBoard(),
               const Spacer(),
 
               // Current player indicator
@@ -106,7 +103,7 @@ class _CurrentPlayerIndicator extends StatelessWidget {
           ),
           const SizedBox(width: AppTheme.spacingSm),
           Text(
-            isAiTurn ? "AI's Turn" : "'s Turn",
+            isAiTurn ? context.l10n.aiTurn : context.l10n.playerTurn,
             style: AppTheme.bodyLarge.copyWith(color: color),
           ),
           if (isAiTurn) ...[

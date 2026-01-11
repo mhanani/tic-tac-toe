@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../extensions/extensions.dart';
 import '../../router/app_router.dart';
 import '../../theme/app_theme.dart';
 
@@ -8,13 +9,12 @@ import '../../theme/app_theme.dart';
 class UnknownPage extends StatelessWidget {
   final String? path;
 
-  const UnknownPage({
-    super.key,
-    this.path,
-  });
+  const UnknownPage({super.key, this.path});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -29,14 +29,11 @@ class UnknownPage extends StatelessWidget {
                   color: AppTheme.textSecondary,
                 ),
                 const SizedBox(height: AppTheme.spacingLg),
-                const Text(
-                  'Page Not Found',
-                  style: AppTheme.headingLarge,
-                ),
+                Text(l10n.pageNotFound, style: AppTheme.headingLarge),
                 const SizedBox(height: AppTheme.spacingSm),
                 if (path != null)
                   Text(
-                    'The page "$path" does not exist.',
+                    l10n.pageNotFoundMessage(path!),
                     style: AppTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
@@ -44,7 +41,7 @@ class UnknownPage extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: () => context.go(AppRoutes.home),
                   icon: const Icon(Icons.home),
-                  label: const Text('Go Home'),
+                  label: Text(l10n.goHome),
                 ),
               ],
             ),

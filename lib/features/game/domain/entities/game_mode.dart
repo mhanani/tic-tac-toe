@@ -1,14 +1,19 @@
+import 'package:flutter/widgets.dart';
+
+import '../../../../core/extensions/extensions.dart';
+
 /// Represents the game mode
 enum GameMode {
   playerVsPlayer,
   playerVsAi;
 
-  String get displayName {
+  /// Get the localized display name for this game mode
+  String localizedName(BuildContext context) {
     switch (this) {
       case GameMode.playerVsPlayer:
-        return 'Player vs Player';
+        return context.l10n.playerVsPlayer;
       case GameMode.playerVsAi:
-        return 'Player vs AI';
+        return context.l10n.playerVsAi;
     }
   }
 }

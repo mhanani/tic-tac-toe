@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'core/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/extensions/extensions.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/ui/widgets/widgets.dart';
@@ -15,10 +17,12 @@ class TicTacToeApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
-      title: 'Tic Tac Toe',
+      onGenerateTitle: (context) => context.l10n.appTitle,
       theme: AppTheme.theme,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
@@ -36,18 +40,12 @@ class AppLoader extends ConsumerWidget {
       loading: () => MaterialApp(
         theme: AppTheme.theme,
         debugShowCheckedModeBanner: false,
-        home: const Scaffold(
-          body: AppLoading(),
-        ),
+        home: const Scaffold(body: AppLoading()),
       ),
       error: (error, stack) => MaterialApp(
         theme: AppTheme.theme,
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: Center(
-            child: Text('Error: $error'),
-          ),
-        ),
+        home: Scaffold(body: Center(child: Text('Error: $error'))),
       ),
     );
   }

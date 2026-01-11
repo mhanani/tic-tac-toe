@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/extensions.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/entities.dart';
@@ -50,11 +51,7 @@ class GameOverPage extends ConsumerWidget {
                         const SizedBox(height: AppTheme.spacingXxl),
 
                         // Updated scores
-                        ScoreBoard(
-                          xWins: game.xWins,
-                          oWins: game.oWins,
-                          draws: game.draws,
-                        ),
+                        const ScoreBoard(),
                       ],
                     ),
 
@@ -67,7 +64,7 @@ class GameOverPage extends ConsumerWidget {
                           OutlinedButton.icon(
                             onPressed: () => context.go(AppRoutes.home),
                             icon: const Icon(Icons.home),
-                            label: const Text('Home'),
+                            label: Text(context.l10n.home),
                           ),
                           const SizedBox(width: AppTheme.spacingMd),
                           ElevatedButton.icon(
@@ -78,7 +75,7 @@ class GameOverPage extends ConsumerWidget {
                               context.go(AppRoutes.game);
                             },
                             icon: const Icon(Icons.replay),
-                            label: const Text('Play Again'),
+                            label: Text(context.l10n.playAgain),
                           ),
                         ],
                       ),
@@ -101,26 +98,27 @@ class _GameResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final (icon, title, subtitle, color) = switch (status) {
       GameStatus.xWins => (
         Icons.emoji_events,
-        'X Wins!',
-        'Congratulations!',
+        l10n.xWins,
+        l10n.congratulations,
         AppTheme.playerXColor,
       ),
       GameStatus.oWins => (
         Icons.emoji_events,
-        'O Wins!',
-        'Congratulations!',
+        l10n.oWins,
+        l10n.congratulations,
         AppTheme.playerOColor,
       ),
       GameStatus.draw => (
         Icons.handshake,
-        "It's a Draw!",
-        'Well played, both!',
+        l10n.draw,
+        l10n.wellPlayed,
         AppTheme.drawColor,
       ),
-      _ => (Icons.help, 'Game Over', '', AppTheme.textSecondary),
+      _ => (Icons.help, l10n.gameOver, '', AppTheme.textSecondary),
     };
 
     return Column(

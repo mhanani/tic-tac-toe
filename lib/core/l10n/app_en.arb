@@ -1,0 +1,208 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Tic Tac Toe",
+  "@appTitle": {
+    "description": "The application title"
+  },
+
+  "errorMessage": "Error: {error}",
+  "@errorMessage": {
+    "description": "Error message with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "chooseGameMode": "Choose your game mode",
+  "@chooseGameMode": {
+    "description": "Subtitle on intro page"
+  },
+
+  "playerVsPlayer": "Player vs Player",
+  "@playerVsPlayer": {
+    "description": "Game mode name"
+  },
+
+  "playerVsPlayerSubtitle": "Play with a friend locally",
+  "@playerVsPlayerSubtitle": {
+    "description": "Description for PvP mode"
+  },
+
+  "playerVsAi": "Player vs AI",
+  "@playerVsAi": {
+    "description": "Game mode name"
+  },
+
+  "playerVsAiSubtitle": "Challenge the computer",
+  "@playerVsAiSubtitle": {
+    "description": "Description for AI mode"
+  },
+
+  "resetScores": "Reset Scores",
+  "@resetScores": {
+    "description": "Button to reset scores"
+  },
+
+  "selectDifficulty": "Select Difficulty",
+  "@selectDifficulty": {
+    "description": "Dialog title for AI difficulty selection"
+  },
+
+  "difficultyChill": "Chill",
+  "@difficultyChill": {
+    "description": "Easy difficulty name"
+  },
+
+  "difficultyChillSubtitle": "Relaxed gameplay",
+  "@difficultyChillSubtitle": {
+    "description": "Easy difficulty description"
+  },
+
+  "difficultyExpert": "Expert",
+  "@difficultyExpert": {
+    "description": "Hard difficulty name"
+  },
+
+  "difficultyExpertSubtitle": "Strategic AI",
+  "@difficultyExpertSubtitle": {
+    "description": "Hard difficulty description"
+  },
+
+  "resetScoresTitle": "Reset Scores?",
+  "@resetScoresTitle": {
+    "description": "Dialog title for reset confirmation"
+  },
+
+  "resetScoresMessage": "This will reset all win/loss/draw statistics.",
+  "@resetScoresMessage": {
+    "description": "Dialog message for reset confirmation"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+
+  "reset": "Reset",
+  "@reset": {
+    "description": "Reset button"
+  },
+
+  "resumeGameTitle": "Resume Game?",
+  "@resumeGameTitle": {
+    "description": "Dialog title for resume game"
+  },
+
+  "resumeGameMessage": "You have an ongoing {mode} game.",
+  "@resumeGameMessage": {
+    "description": "Dialog message for resume game",
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button"
+  },
+
+  "resume": "Resume",
+  "@resume": {
+    "description": "Resume button"
+  },
+
+  "newGame": "New Game",
+  "@newGame": {
+    "description": "Tooltip for new game button"
+  },
+
+  "aiTurn": "AI's Turn",
+  "@aiTurn": {
+    "description": "Indicates it's the AI's turn"
+  },
+
+  "playerTurn": "'s Turn",
+  "@playerTurn": {
+    "description": "Indicates it's a player's turn (prefixed with X or O)"
+  },
+
+  "xWins": "X Wins!",
+  "@xWins": {
+    "description": "Game over message when X wins"
+  },
+
+  "oWins": "O Wins!",
+  "@oWins": {
+    "description": "Game over message when O wins"
+  },
+
+  "draw": "It's a Draw!",
+  "@draw": {
+    "description": "Game over message when it's a draw"
+  },
+
+  "congratulations": "Congratulations!",
+  "@congratulations": {
+    "description": "Subtitle when someone wins"
+  },
+
+  "wellPlayed": "Well played, both!",
+  "@wellPlayed": {
+    "description": "Subtitle when it's a draw"
+  },
+
+  "gameOver": "Game Over",
+  "@gameOver": {
+    "description": "Generic game over title"
+  },
+
+  "home": "Home",
+  "@home": {
+    "description": "Home button"
+  },
+
+  "playAgain": "Play Again",
+  "@playAgain": {
+    "description": "Play again button"
+  },
+
+  "xWinsLabel": "X Wins",
+  "@xWinsLabel": {
+    "description": "Label for X wins score"
+  },
+
+  "oWinsLabel": "O Wins",
+  "@oWinsLabel": {
+    "description": "Label for O wins score"
+  },
+
+  "drawsLabel": "Draws",
+  "@drawsLabel": {
+    "description": "Label for draws score"
+  },
+
+  "pageNotFound": "Page Not Found",
+  "@pageNotFound": {
+    "description": "404 page title"
+  },
+
+  "pageNotFoundMessage": "The page \"{path}\" does not exist.",
+  "@pageNotFoundMessage": {
+    "description": "404 page message",
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+
+  "goHome": "Go Home",
+  "@goHome": {
+    "description": "Button to go back to home"
+  }
+}

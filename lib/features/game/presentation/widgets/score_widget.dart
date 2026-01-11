@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/extensions/extensions.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../providers/game_provider.dart';
 
 /// Displays the score for a player or draws
 class ScoreWidget extends StatelessWidget {
@@ -30,10 +33,7 @@ class ScoreWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: AppTheme.bodyMedium.copyWith(color: color),
-          ),
+          Text(label, style: AppTheme.bodyMedium.copyWith(color: color)),
           const SizedBox(height: AppTheme.spacingXs),
           Text(
             score.toString(),
@@ -46,36 +46,30 @@ class ScoreWidget extends StatelessWidget {
 }
 
 /// Row of all scores
-class ScoreBoard extends StatelessWidget {
-  final int xWins;
-  final int oWins;
-  final int draws;
-
-  const ScoreBoard({
-    super.key,
-    required this.xWins,
-    required this.oWins,
-    required this.draws,
-  });
+class ScoreBoard extends ConsumerWidget {
+  const ScoreBoard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final game = ref.watch(gameNotifierProvider);
+    final l10n = context.l10n;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ScoreWidget(
-          label: 'X Wins',
-          score: xWins,
+          label: l10n.xWinsLabel,
+          score: game.xWins,
           color: AppTheme.playerXColor,
         ),
         ScoreWidget(
-          label: 'Draws',
-          score: draws,
+          label: l10n.drawsLabel,
+          score: game.draws,
           color: AppTheme.drawColor,
         ),
         ScoreWidget(
-          label: 'O Wins',
-          score: oWins,
+          label: l10n.oWinsLabel,
+          score: game.oWins,
           color: AppTheme.playerOColor,
         ),
       ],
