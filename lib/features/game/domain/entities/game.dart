@@ -1,3 +1,4 @@
+import 'ai_difficulty.dart';
 import 'board.dart';
 import 'game_mode.dart';
 import 'game_status.dart';
@@ -9,6 +10,7 @@ class Game {
   final Player currentPlayer;
   final GameStatus status;
   final GameMode mode;
+  final AiDifficulty? difficulty;
   final int xWins;
   final int oWins;
   final int draws;
@@ -18,18 +20,23 @@ class Game {
     required this.currentPlayer,
     required this.status,
     required this.mode,
+    this.difficulty,
     this.xWins = 0,
     this.oWins = 0,
     this.draws = 0,
   });
 
   /// Creates a new game with default settings
-  factory Game.initial({GameMode mode = GameMode.playerVsPlayer}) {
+  factory Game.initial({
+    GameMode mode = GameMode.playerVsPlayer,
+    AiDifficulty? difficulty,
+  }) {
     return Game(
       board: Board.empty(),
       currentPlayer: Player.x,
       status: GameStatus.inProgress,
       mode: mode,
+      difficulty: difficulty,
     );
   }
 
@@ -40,6 +47,7 @@ class Game {
       currentPlayer: Player.x,
       status: GameStatus.inProgress,
       mode: mode,
+      difficulty: difficulty,
       xWins: xWins,
       oWins: oWins,
       draws: draws,
@@ -52,6 +60,7 @@ class Game {
     Player? currentPlayer,
     GameStatus? status,
     GameMode? mode,
+    AiDifficulty? difficulty,
     int? xWins,
     int? oWins,
     int? draws,
@@ -61,6 +70,7 @@ class Game {
       currentPlayer: currentPlayer ?? this.currentPlayer,
       status: status ?? this.status,
       mode: mode ?? this.mode,
+      difficulty: difficulty ?? this.difficulty,
       xWins: xWins ?? this.xWins,
       oWins: oWins ?? this.oWins,
       draws: draws ?? this.draws,
@@ -76,6 +86,7 @@ class Game {
           currentPlayer == other.currentPlayer &&
           status == other.status &&
           mode == other.mode &&
+          difficulty == other.difficulty &&
           xWins == other.xWins &&
           oWins == other.oWins &&
           draws == other.draws;
@@ -86,6 +97,7 @@ class Game {
       currentPlayer.hashCode ^
       status.hashCode ^
       mode.hashCode ^
+      difficulty.hashCode ^
       xWins.hashCode ^
       oWins.hashCode ^
       draws.hashCode;

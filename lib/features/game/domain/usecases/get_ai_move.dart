@@ -3,12 +3,9 @@ import 'dart:math';
 import '../entities/entities.dart';
 
 /// Use case for getting the AI's move
-/// Uses a strategic approach:
-/// 1. Win if possible
-/// 2. Block opponent's win
-/// 3. Take center
-/// 4. Take corner
-/// 5. Take any available cell
+/// Supports two difficulty modes:
+/// - Chill: Random moves
+/// - Expert: Strategic approach (win, block, center, corner, edge)
 class GetAiMove {
   final Random _random = Random();
 
@@ -20,6 +17,12 @@ class GetAiMove {
 
     if (emptyCells.isEmpty) return null;
 
+    // Chill mode: just pick a random empty cell
+    if (game.difficulty == AiDifficulty.chill) {
+      return emptyCells[_random.nextInt(emptyCells.length)];
+    }
+
+    // Expert mode: use strategic approach
     // AI is always Player O
     const aiPlayer = Player.o;
     const humanPlayer = Player.x;
@@ -37,8 +40,9 @@ class GetAiMove {
 
     // 4. Take a corner if available
     const corners = [0, 2, 6, 8];
-    final availableCorners =
-        corners.where((i) => board.isCellEmpty(i)).toList();
+    final availableCorners = corners
+        .where((i) => board.isCellEmpty(i))
+        .toList();
     if (availableCorners.isNotEmpty) {
       return availableCorners[_random.nextInt(availableCorners.length)];
     }

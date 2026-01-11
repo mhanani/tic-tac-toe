@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/ui/widgets/custom_dialog.dart';
+import '../../domain/entities/ai_difficulty.dart';
 import '../../domain/entities/game_mode.dart';
 import '../providers/game_provider.dart';
 import '../widgets/score_widget.dart';
@@ -38,15 +40,9 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
             children: [
               const Spacer(),
               // Title
-              const Text(
-                'Tic Tac Toe',
-                style: AppTheme.headingLarge,
-              ),
+              const Text('Tic Tac Toe', style: AppTheme.headingLarge),
               const SizedBox(height: AppTheme.spacingSm),
-              Text(
-                'Choose your game mode',
-                style: AppTheme.bodyMedium,
-              ),
+              Text('Choose your game mode', style: AppTheme.bodyMedium),
               const SizedBox(height: AppTheme.spacingXxl),
 
               // Score board
@@ -62,14 +58,14 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
                 icon: Icons.people,
                 title: 'Player vs Player',
                 subtitle: 'Play with a friend locally',
-                onTap: () => _startGame(GameMode.playerVsPlayer),
+                onTap: _startPlayerVsPlayer,
               ),
               const SizedBox(height: AppTheme.spacingMd),
               _GameModeButton(
                 icon: Icons.smart_toy,
                 title: 'Player vs AI',
                 subtitle: 'Challenge the computer',
-                onTap: () => _startGame(GameMode.playerVsAi),
+                onTap: _showDifficultyDialog,
               ),
               const Spacer(flex: 2),
 
@@ -87,9 +83,44 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
     );
   }
 
-  void _startGame(GameMode mode) {
-    ref.read(gameNotifierProvider.notifier).startGame(mode);
+  void _startPlayerVsPlayer() {
+    ref.read(gameNotifierProvider.notifier).startGame(GameMode.playerVsPlayer);
     context.go(AppRoutes.game);
+  }
+
+  void _startPlayerVsAi(AiDifficulty difficulty) {
+    ref
+        .read(gameNotifierProvider.notifier)
+        .startGame(GameMode.playerVsAi, difficulty: difficulty);
+    context.go(AppRoutes.game);
+  }
+
+  void _showDifficultyDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => CustomDialog(
+        title: 'Select Difficulty',
+        children: [
+          _DifficultyOption(
+            title: 'Chill',
+            subtitle: 'Relaxed gameplay',
+            onTap: () {
+              Navigator.pop(context);
+              _startPlayerVsAi(AiDifficulty.chill);
+            },
+          ),
+          const SizedBox(height: AppTheme.spacingSm),
+          _DifficultyOption(
+            title: 'Expert',
+            subtitle: 'Strategic AI',
+            onTap: () {
+              Navigator.pop(context);
+              _startPlayerVsAi(AiDifficulty.expert);
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   void _showResetDialog() {
@@ -148,31 +179,66 @@ class _GameModeButton extends StatelessWidget {
                   color: AppTheme.primaryColor.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
-                child: Icon(
-                  icon,
-                  color: AppTheme.primaryColor,
-                  size: 28,
-                ),
+                child: Icon(icon, color: AppTheme.primaryColor, size: 28),
               ),
               const SizedBox(width: AppTheme.spacingMd),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: AppTheme.headingSmall,
-                    ),
-                    Text(
-                      subtitle,
-                      style: AppTheme.bodyMedium,
-                    ),
+                    Text(title, style: AppTheme.headingSmall),
+                    Text(subtitle, style: AppTheme.bodyMedium),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right, color: AppTheme.textSecondary),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DifficultyOption extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const _DifficultyOption({
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppTheme.cardColor,
+      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppTheme.spacingMd,
+            vertical: AppTheme.spacingSm,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: AppTheme.bodyLarge),
+                    Text(subtitle, style: AppTheme.bodyMedium),
                   ],
                 ),
               ),
               const Icon(
                 Icons.chevron_right,
                 color: AppTheme.textSecondary,
+                size: 20,
               ),
             ],
           ),

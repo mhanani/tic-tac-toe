@@ -85,13 +85,12 @@ class GameNotifier extends _$GameNotifier {
     ref.read(gameRouterNotifierProvider).update(state.status);
   }
 
-  /// Starts a new game with the given mode
-  void startGame(GameMode mode) {
-    state = Game.initial(mode: mode).copyWith(
-      xWins: state.xWins,
-      oWins: state.oWins,
-      draws: state.draws,
-    );
+  /// Starts a new game with the given mode and optional difficulty (for AI mode)
+  void startGame(GameMode mode, {AiDifficulty? difficulty}) {
+    state = Game.initial(
+      mode: mode,
+      difficulty: difficulty,
+    ).copyWith(xWins: state.xWins, oWins: state.oWins, draws: state.draws);
     _updateRouterNotifier();
   }
 
