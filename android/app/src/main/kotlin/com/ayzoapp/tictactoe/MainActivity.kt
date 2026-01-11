@@ -1,4 +1,4 @@
-package com.example.tic_tac_toe
+package com.ayzoapp.tictactoe
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -18,58 +18,76 @@ class GameOverPage extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppTheme.spacingLg),
-          child: Column(
-            children: [
-              const Spacer(),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(AppTheme.spacingLg),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - AppTheme.spacingLg * 2,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox.shrink(),
 
-              // Result
-              _GameResult(status: game.status),
-              const SizedBox(height: AppTheme.spacingXxl),
+                    // Main content
+                    Column(
+                      children: [
+                        // Result
+                        _GameResult(status: game.status),
+                        const SizedBox(height: AppTheme.spacingXxl),
 
-              // Final board state
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 300),
-                child: BoardWidget(
-                  board: game.board,
-                  status: game.status,
-                  onCellTap: (_) {},
+                        // Final board state
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 300),
+                          child: BoardWidget(
+                            board: game.board,
+                            status: game.status,
+                            onCellTap: (_) {},
+                          ),
+                        ),
+                        const SizedBox(height: AppTheme.spacingXxl),
+
+                        // Updated scores
+                        ScoreBoard(
+                          xWins: game.xWins,
+                          oWins: game.oWins,
+                          draws: game.draws,
+                        ),
+                      ],
+                    ),
+
+                    // Action buttons
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppTheme.spacingLg),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: () => context.go(AppRoutes.home),
+                            icon: const Icon(Icons.home),
+                            label: const Text('Home'),
+                          ),
+                          const SizedBox(width: AppTheme.spacingMd),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              ref
+                                  .read(gameNotifierProvider.notifier)
+                                  .resetGame();
+                              context.go(AppRoutes.game);
+                            },
+                            icon: const Icon(Icons.replay),
+                            label: const Text('Play Again'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: AppTheme.spacingXxl),
-
-              // Updated scores
-              ScoreBoard(
-                xWins: game.xWins,
-                oWins: game.oWins,
-                draws: game.draws,
-              ),
-              const Spacer(),
-
-              // Action buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton.icon(
-                    onPressed: () => context.go(AppRoutes.home),
-                    icon: const Icon(Icons.home),
-                    label: const Text('Home'),
-                  ),
-                  const SizedBox(width: AppTheme.spacingMd),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      ref.read(gameNotifierProvider.notifier).resetGame();
-                      context.go(AppRoutes.game);
-                    },
-                    icon: const Icon(Icons.replay),
-                    label: const Text('Play Again'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppTheme.spacingLg),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -85,29 +103,24 @@ class _GameResult extends StatelessWidget {
   Widget build(BuildContext context) {
     final (icon, title, subtitle, color) = switch (status) {
       GameStatus.xWins => (
-          Icons.emoji_events,
-          'X Wins!',
-          'Congratulations!',
-          AppTheme.playerXColor,
-        ),
+        Icons.emoji_events,
+        'X Wins!',
+        'Congratulations!',
+        AppTheme.playerXColor,
+      ),
       GameStatus.oWins => (
-          Icons.emoji_events,
-          'O Wins!',
-          'Congratulations!',
-          AppTheme.playerOColor,
-        ),
+        Icons.emoji_events,
+        'O Wins!',
+        'Congratulations!',
+        AppTheme.playerOColor,
+      ),
       GameStatus.draw => (
-          Icons.handshake,
-          "It's a Draw!",
-          'Well played, both!',
-          AppTheme.drawColor,
-        ),
-      _ => (
-          Icons.help,
-          'Game Over',
-          '',
-          AppTheme.textSecondary,
-        ),
+        Icons.handshake,
+        "It's a Draw!",
+        'Well played, both!',
+        AppTheme.drawColor,
+      ),
+      _ => (Icons.help, 'Game Over', '', AppTheme.textSecondary),
     };
 
     return Column(
@@ -119,22 +132,11 @@ class _GameResult extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: color.withOpacity(0.3), width: 3),
           ),
-          child: Icon(
-            icon,
-            size: 64,
-            color: color,
-          ),
+          child: Icon(icon, size: 64, color: color),
         ),
         const SizedBox(height: AppTheme.spacingLg),
-        Text(
-          title,
-          style: AppTheme.headingLarge.copyWith(color: color),
-        ),
-        if (subtitle.isNotEmpty)
-          Text(
-            subtitle,
-            style: AppTheme.bodyMedium,
-          ),
+        Text(title, style: AppTheme.headingLarge.copyWith(color: color)),
+        if (subtitle.isNotEmpty) Text(subtitle, style: AppTheme.bodyMedium),
       ],
     );
   }

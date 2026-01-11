@@ -1,9 +1,20 @@
 import 'dart:developer' as developer;
+import 'package:flutter/foundation.dart';
 
 /// Log levels for the app logger
 enum LogLevel { debug, info, warning, error }
 
-/// Logger utility for the app
+/// ANSI color codes for terminal output
+class _AnsiColors {
+  static const String reset = '\x1B[0m';
+  static const String cyan = '\x1B[36m';
+  static const String blue = '\x1B[34m';
+  static const String yellow = '\x1B[33m';
+  static const String red = '\x1B[31m';
+}
+
+/// Logger utility for the app in debug mode
+
 class Logger {
   LogLevel _minLevel = LogLevel.debug;
 
@@ -45,11 +56,15 @@ class Logger {
     Object? error,
     StackTrace? stackTrace,
   }) {
+    // Only log in debug mode
+    if (!kDebugMode) return;
     if (level.index < _minLevel.index) return;
 
-    final prefix = '[${level.name.toUpperCase()}]';
-    final tagStr = tag != null ? '[$tag]' : '';
-    final fullMessage = '$prefix$tagStr $message';
+    final emoji = _emojiForLevel(level);
+    final color = _colorForLevel(level);
+    final tagStr = tag != null ? '[$tag] ' : '';
+    final fullMessage =
+        '$color$emoji ${level.name.toUpperCase()} $tagStr$message${_AnsiColors.reset}';
 
     developer.log(
       fullMessage,
@@ -58,6 +73,24 @@ class Logger {
       stackTrace: stackTrace,
       level: _levelToInt(level),
     );
+  }
+
+  String _emojiForLevel(LogLevel level) {
+    return switch (level) {
+      LogLevel.debug => '🐛',
+      LogLevel.info => '💡',
+      LogLevel.warning => '⚠️',
+      LogLevel.error => '❌',
+    };
+  }
+
+  String _colorForLevel(LogLevel level) {
+    return switch (level) {
+      LogLevel.debug => _AnsiColors.cyan,
+      LogLevel.info => _AnsiColors.blue,
+      LogLevel.warning => _AnsiColors.yellow,
+      LogLevel.error => _AnsiColors.red,
+    };
   }
 
   int _levelToInt(LogLevel level) {
