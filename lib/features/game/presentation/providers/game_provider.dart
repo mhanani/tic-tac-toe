@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:tic_tac_toe/core/providers/shared_prefs_provider.dart';
 import 'package:tic_tac_toe/features/game/data/datasources/game_local_datasource.dart';
 import 'package:tic_tac_toe/features/game/data/repositories/game_repository_impl.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
@@ -10,16 +10,10 @@ import 'package:tic_tac_toe/features/game/domain/usecases/usecases.dart';
 
 part 'game_provider.g.dart';
 
-/// Provider for SharedPreferences
-@Riverpod(keepAlive: true)
-Future<SharedPreferences> sharedPreferences(Ref ref) async {
-  return SharedPreferences.getInstance();
-}
-
 /// Provider for the game local data source
 @Riverpod(keepAlive: true)
 GameLocalDataSource gameLocalDataSource(Ref ref) {
-  final prefs = ref.watch(sharedPreferencesProvider).requireValue;
+  final prefs = ref.watch(sharedPreferencesProvider);
   return GameLocalDataSourceImpl(prefs);
 }
 

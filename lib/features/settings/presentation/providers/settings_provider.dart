@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
+import 'package:tic_tac_toe/core/providers/shared_prefs_provider.dart';
 import 'package:tic_tac_toe/features/settings/data/datasources/settings_local_datasource.dart';
 import 'package:tic_tac_toe/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:tic_tac_toe/features/settings/domain/entities/app_locale.dart';
@@ -13,7 +13,7 @@ part 'settings_provider.g.dart';
 /// Provider for the settings local data source
 @Riverpod(keepAlive: true)
 SettingsLocalDataSource settingsLocalDataSource(Ref ref) {
-  final prefs = ref.watch(sharedPreferencesProvider).requireValue;
+  final prefs = ref.watch(sharedPreferencesProvider);
   return SettingsLocalDataSource(prefs);
 }
 
