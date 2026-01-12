@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:tic_tac_toe/core/extensions/extensions.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/player.dart';
 
@@ -45,9 +46,7 @@ class CellWidget extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
-                      color: player == Player.x
-                          ? AppTheme.playerXColor
-                          : AppTheme.playerOColor,
+                      color: player.color!,
                     ),
                   ),
           ),

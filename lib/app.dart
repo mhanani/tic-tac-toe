@@ -43,7 +43,7 @@ class AppLoader extends ConsumerWidget {
       loading: () => MaterialApp(
         theme: AppTheme.theme,
         debugShowCheckedModeBanner: false,
-        home: const Scaffold(body: AppLoading()),
+        home: const Scaffold(body: Loading()),
       ),
       error: (error, stack) => MaterialApp(
         theme: AppTheme.theme,

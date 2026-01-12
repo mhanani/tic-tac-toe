@@ -15,6 +15,7 @@ class AppTheme {
   static const Color drawColor = Color(0xFFF59E0B);
   static const Color textPrimary = Color(0xFFF8FAFC);
   static const Color textSecondary = Color(0xFF94A3B8);
+  static const Color transparent = Color(0x00000000);
 
   // Spacing
   static const double spacingXs = 4.0;
@@ -70,63 +71,63 @@ class AppTheme {
 
   /// Main theme data
   static ThemeData get theme => ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: backgroundColor,
-        colorScheme: const ColorScheme.dark(
-          primary: primaryColor,
-          secondary: secondaryColor,
-          surface: surfaceColor,
-          onPrimary: textPrimary,
-          onSecondary: textPrimary,
-          onSurface: textPrimary,
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: backgroundColor,
+    colorScheme: const ColorScheme.dark(
+      primary: primaryColor,
+      secondary: secondaryColor,
+      surface: surfaceColor,
+      onPrimary: textPrimary,
+      onSecondary: textPrimary,
+      onSurface: textPrimary,
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: backgroundColor,
+      elevation: 0,
+      centerTitle: true,
+      titleTextStyle: headingMedium,
+    ),
+    cardTheme: CardThemeData(
+      color: cardColor,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radiusMd),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: textPrimary,
+        padding: const EdgeInsets.symmetric(
+          horizontal: spacingLg,
+          vertical: spacingMd,
         ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: backgroundColor,
-          elevation: 0,
-          centerTitle: true,
-          titleTextStyle: headingMedium,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusMd),
         ),
-        cardTheme: CardThemeData(
-          color: cardColor,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radiusMd),
-          ),
+        textStyle: labelLarge,
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: textPrimary,
+        side: const BorderSide(color: textSecondary),
+        padding: const EdgeInsets.symmetric(
+          horizontal: spacingLg,
+          vertical: spacingMd,
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor,
-            foregroundColor: textPrimary,
-            padding: const EdgeInsets.symmetric(
-              horizontal: spacingLg,
-              vertical: spacingMd,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radiusMd),
-            ),
-            textStyle: labelLarge,
-          ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusMd),
         ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: textPrimary,
-            side: const BorderSide(color: textSecondary),
-            padding: const EdgeInsets.symmetric(
-              horizontal: spacingLg,
-              vertical: spacingMd,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radiusMd),
-            ),
-            textStyle: labelLarge,
-          ),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: primaryColor,
-            textStyle: labelLarge,
-          ),
-        ),
-      );
+        textStyle: labelLarge,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: primaryColor,
+        textStyle: labelLarge,
+      ),
+    ),
+  );
 }

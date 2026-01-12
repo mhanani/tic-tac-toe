@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tic_tac_toe/core/extensions/extensions.dart';
 import 'package:tic_tac_toe/core/router/app_router.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/core/ui/widgets/widgets.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
 import 'package:tic_tac_toe/features/game/presentation/widgets/widgets.dart';
@@ -79,9 +80,7 @@ class _CurrentPlayerIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isAiTurn = mode == GameMode.playerVsAi && currentPlayer == Player.o;
-    final color = currentPlayer == Player.x
-        ? AppTheme.playerXColor
-        : AppTheme.playerOColor;
+    final color = currentPlayer.color ?? AppTheme.textSecondary;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -107,14 +106,7 @@ class _CurrentPlayerIndicator extends StatelessWidget {
           ),
           if (isAiTurn) ...[
             const SizedBox(width: AppTheme.spacingSm),
-            SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(color),
-              ),
-            ),
+            Loading(inline: true, size: 16.0, strokeWidth: 2.0, color: color),
           ],
         ],
       ),

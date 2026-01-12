@@ -43,7 +43,7 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppTheme.transparent,
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
