@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:tic_tac_toe/core/providers/shared_prefs_provider.dart';
+import 'package:tic_tac_toe/core/utils/logger.dart';
 import 'package:tic_tac_toe/features/game/data/datasources/game_local_datasource.dart';
 import 'package:tic_tac_toe/features/game/data/repositories/game_repository_impl.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
@@ -121,7 +122,7 @@ class GameNotifier extends _$GameNotifier {
     if (aiMoveIndex == null) return;
 
     // Add a small delay for better UX
-    Future.delayed(const Duration(milliseconds: 300), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       if (state.status.isGameOver) return;
 
       try {
@@ -153,21 +154,43 @@ class GameNotifier extends _$GameNotifier {
   /// Loads a saved game
   Future<void> loadSavedGame() async {
     final loadGame = ref.read(loadGameUseCaseProvider);
-    final savedGame = await loadGame();
-    if (savedGame != null) {
-      state = savedGame;
-      _updateRouterNotifier();
-    }
+    final result = await loadGame();
+
+    result.fold(
+      (failure) {
+        logger.e(
+          'Failed to load saved game: ${failure.message}',
+          tag: 'GameProvider',
+        );
+      },
+      (savedGame) {
+        if (savedGame != null) {
+          state = savedGame;
+          _updateRouterNotifier();
+        }
+      },
+    );
   }
 
   /// Loads just the scores (for home screen)
   Future<void> loadScores() async {
     final repository = ref.read(gameRepositoryProvider);
-    final scores = await repository.loadScores();
-    state = state.copyWith(
-      xWins: scores.xWins,
-      oWins: scores.oWins,
-      draws: scores.draws,
+    final result = await repository.loadScores();
+
+    result.fold(
+      (failure) {
+        logger.e(
+          'Failed to load scores: ${failure.message}',
+          tag: 'GameProvider',
+        );
+      },
+      (scores) {
+        state = state.copyWith(
+          xWins: scores.xWins,
+          oWins: scores.oWins,
+          draws: scores.draws,
+        );
+      },
     );
   }
 
@@ -175,21 +198,57 @@ class GameNotifier extends _$GameNotifier {
   /// Returns the saved game if it exists and is in progress, null otherwise
   Future<Game?> checkForSavedGameInProgress() async {
     final loadGame = ref.read(loadGameUseCaseProvider);
-    final savedGame = await loadGame();
-    if (savedGame != null && savedGame.status == GameStatus.inProgress) {
-      return savedGame;
-    }
-    return null;
+    final result = await loadGame();
+
+    return result.fold(
+      (failure) {
+        logger.e(
+          'Failed to check for saved game: ${failure.message}',
+          tag: 'GameProvider',
+        );
+        return null;
+      },
+      (savedGame) {
+        if (savedGame != null && savedGame.status == GameStatus.inProgress) {
+          return savedGame;
+        }
+        return null;
+      },
+    );
   }
 
   void _saveGame() {
     final saveGame = ref.read(saveGameUseCaseProvider);
-    saveGame(state);
+    saveGame(state).then((result) {
+      result.fold(
+        (failure) {
+          logger.e(
+            'Failed to save game: ${failure.message}',
+            tag: 'GameProvider',
+          );
+        },
+        (_) {
+          // Success - no action needed
+        },
+      );
+    });
   }
 
   /// Clears the saved game from storage (does not reset state)
   void clearSavedGame() {
     final repository = ref.read(gameRepositoryProvider);
-    repository.clearGame();
+    repository.clearGame().then((result) {
+      result.fold(
+        (failure) {
+          logger.e(
+            'Failed to clear saved game: ${failure.message}',
+            tag: 'GameProvider',
+          );
+        },
+        (_) {
+          // Success - no action needed
+        },
+      );
+    });
   }
 }

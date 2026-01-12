@@ -1,23 +1,16 @@
+import 'package:dartz/dartz.dart';
+import 'package:tic_tac_toe/core/error/failures.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 
 /// Abstract repository interface for game persistence
 abstract class GameRepository {
-  /// Saves the current game state
-  Future<void> saveGame(Game game);
-
-  /// Loads the saved game state
-  Future<Game?> loadGame();
-
-  /// Clears the saved game state
-  Future<void> clearGame();
-
-  /// Saves the score statistics
-  Future<void> saveScores({
+  Future<Either<Failure, Unit>> saveGame(Game game);
+  Future<Either<Failure, Game?>> loadGame();
+  Future<Either<Failure, Unit>> clearGame();
+  Future<Either<Failure, Unit>> saveScores({
     required int xWins,
     required int oWins,
     required int draws,
   });
-
-  /// Loads the score statistics
-  Future<({int xWins, int oWins, int draws})> loadScores();
+  Future<Either<Failure, ({int xWins, int oWins, int draws})>> loadScores();
 }

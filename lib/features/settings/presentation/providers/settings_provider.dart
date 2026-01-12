@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:tic_tac_toe/core/providers/shared_prefs_provider.dart';
+import 'package:tic_tac_toe/core/utils/logger.dart';
 import 'package:tic_tac_toe/features/settings/data/datasources/settings_local_datasource.dart';
 import 'package:tic_tac_toe/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:tic_tac_toe/features/settings/domain/entities/app_locale.dart';
@@ -30,14 +31,33 @@ class LocaleNotifier extends _$LocaleNotifier {
   @override
   AppLocale build() {
     final repository = ref.watch(settingsRepositoryProvider);
-    return repository.getLocale();
+    final result = repository.getLocale();
+
+    return result.fold((failure) {
+      logger.e(
+        'Failed to get locale: ${failure.message}',
+        tag: 'SettingsProvider',
+      );
+      return AppLocale.system; // Default fallback
+    }, (locale) => locale);
   }
 
   /// Set the app locale
   Future<void> setLocale(AppLocale locale) async {
     final repository = ref.read(settingsRepositoryProvider);
-    await repository.saveLocale(locale);
-    state = locale;
+    final result = await repository.saveLocale(locale);
+
+    result.fold(
+      (failure) {
+        logger.e(
+          'Failed to save locale: ${failure.message}',
+          tag: 'SettingsProvider',
+        );
+      },
+      (_) {
+        state = locale;
+      },
+    );
   }
 }
 
