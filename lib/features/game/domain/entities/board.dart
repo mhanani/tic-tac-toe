@@ -1,27 +1,32 @@
+import 'package:tic_tac_toe/constants/app_constants.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/player.dart';
 
 /// Represents the 3x3 game board
 class Board {
-  /// The 9 cells of the board (indices 0-8, row-major order)
+  /// The cells of the board (indices 0 to kBoardSize*kBoardSize-1, row-major order)
   final List<Player> cells;
 
   const Board({required this.cells});
 
   /// Creates an empty board
   factory Board.empty() {
-    return Board(cells: List.filled(9, Player.none));
+    return Board(cells: List.filled(kBoardSize * kBoardSize, Player.none));
   }
 
   /// Creates a board from a list of cells
   factory Board.fromCells(List<Player> cells) {
-    assert(cells.length == 9, 'Board must have exactly 9 cells');
+    assert(
+      cells.length == kBoardSize * kBoardSize,
+      'Board must have exactly ${kBoardSize * kBoardSize} cells',
+    );
     return Board(cells: List.unmodifiable(cells));
   }
 
   /// Returns a new board with the move applied
   Board makeMove(int index, Player player) {
-    if (index < 0 || index > 8) {
-      throw ArgumentError('Index must be between 0 and 8');
+    final maxIndex = kBoardSize * kBoardSize - 1;
+    if (index < 0 || index > maxIndex) {
+      throw ArgumentError('Index must be between 0 and $maxIndex');
     }
     if (cells[index] != Player.none) {
       throw StateError('Cell $index is already occupied');
@@ -38,7 +43,8 @@ class Board {
   /// Returns all empty cell indices
   List<int> get emptyCells {
     final empty = <int>[];
-    for (var i = 0; i < 9; i++) {
+    final totalCells = kBoardSize * kBoardSize;
+    for (var i = 0; i < totalCells; i++) {
       if (cells[i] == Player.none) {
         empty.add(i);
       }

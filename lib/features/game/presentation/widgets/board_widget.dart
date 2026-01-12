@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:tic_tac_toe/constants/app_constants.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 import 'package:tic_tac_toe/features/game/presentation/widgets/cell_widget.dart';
@@ -32,11 +33,11 @@ class BoardWidget extends StatelessWidget {
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: kBoardSize,
             mainAxisSpacing: AppTheme.spacingSm,
             crossAxisSpacing: AppTheme.spacingSm,
           ),
-          itemCount: 9,
+          itemCount: kBoardSize * kBoardSize,
           itemBuilder: (context, index) {
             return CellWidget(
               player: board.getCell(index),

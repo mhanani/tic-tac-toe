@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:tic_tac_toe/constants/app_constants.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 
 /// Use case for getting the AI's move
@@ -36,7 +37,8 @@ class GetAiMove {
     if (blockingMove != null) return blockingMove;
 
     // 3. Take center if available
-    if (board.isCellEmpty(4)) return 4;
+    final centerIndex = (kBoardSize * kBoardSize - 1) ~/ 2;
+    if (board.isCellEmpty(centerIndex)) return centerIndex;
 
     // 4. Take a corner if available
     const corners = [0, 2, 6, 8];

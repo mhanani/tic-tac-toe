@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-A Flutter Tic Tac Toe game built with Clean Architecture and Riverpod.
+A Flutter Tic Tac Toe game built with Riverpod.
 
 ## Features
 
@@ -10,20 +10,91 @@ A Flutter Tic Tac Toe game built with Clean Architecture and Riverpod.
 - **Game Persistence**: Save and resume games using SharedPreferences
 - **Settings**: Language selection (English, French, or System default)
 - **Internationalization**: English and French language support
-- **Modern UI**: Dark theme with smooth animations
+- **Modern UI**: Dark theme with basic smooth animations
 
 ## Architecture
 
-This project follows **Clean Architecture** with a feature-based folder structure:
+This project follows **Clean Architecture** with a feature-based folder structure.
+
+### Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph Presentation["🎨 Presentation Layer"]
+        Pages["Pages<br/>(GamePage, SettingsPage)"]
+        Widgets["Widgets<br/>(BoardWidget, CellWidget)"]
+        Providers["Providers<br/>(GameNotifier, LocaleNotifier)"]
+    end
+
+    subgraph Domain["📐 Domain Layer"]
+        Entities["Entities<br/>(Game, Board, Player)"]
+        UseCases["Use Cases<br/>(PlayMove, CheckWinner, GetAiMove)"]
+        RepoInterfaces["Repository Interfaces"]
+    end
+
+    subgraph Data["💾 Data Layer"]
+        Repositories["Repository Implementations"]
+        DataSources["Data Sources<br/>(SharedPreferences)"]
+        Models["Models<br/>(GameModel)"]
+    end
+
+    subgraph Core["⚙️ Core"]
+        Router["GoRouter"]
+        Theme["Theme"]
+        L10n["Localization"]
+        Extensions["Extensions"]
+        Animations["Animations"]
+    end
+
+    Pages --> Providers
+    Widgets --> Providers
+    Providers --> UseCases
+    UseCases --> RepoInterfaces
+    RepoInterfaces -.->|implements| Repositories
+    Repositories --> DataSources
+    Repositories --> Models
+
+    Pages --> Core
+    Providers --> Core
+
+    style Presentation fill:#4CAF50,color:#fff
+    style Domain fill:#2196F3,color:#fff
+    style Data fill:#FF9800,color:#fff
+    style Core fill:#9C27B0,color:#fff
+```
+
+### Data Flow
+
+```mermaid
+sequenceDiagram
+    participant UI as 🎨 UI (Widget)
+    participant P as 📱 Provider
+    participant UC as 📐 Use Case
+    participant R as 💾 Repository
+    participant DS as 🗄️ DataSource
+
+    UI->>P: User Action (tap cell)
+    P->>UC: Execute Use Case
+    UC->>R: Call Repository
+    R->>DS: Read/Write Data
+    DS-->>R: Return Result
+    R-->>UC: Return Entity
+    UC-->>P: Return Result
+    P-->>UI: Update State
+```
+
+### Folder Structure
 
 ```
 lib/
 ├── main.dart
 ├── app.dart
+├── constants/                          # App-wide constants
 ├── core/
 │   ├── extensions/                    # BuildContext extensions (l10n)
 │   ├── l10n/                          # Localization (ARB files + generated)
 │   ├── observer/                      # Riverpod & Navigator observers
+│   ├── providers/                     # Core providers (SharedPreferences)
 │   ├── router/                        # GoRouter configuration
 │   ├── theme/                         # Design system
 │   ├── ui/
