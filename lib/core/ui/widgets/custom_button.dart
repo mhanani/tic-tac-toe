@@ -187,52 +187,74 @@ class CustomButton extends StatelessWidget {
     final bgColor = backgroundColor ?? AppTheme.primaryColor;
     final fgColor = foregroundColor ?? AppTheme.textPrimary;
     final icon = _buildIcon(fgColor);
+    final radius = borderRadius ?? AppTheme.radiusMd;
 
-    final style = ElevatedButton.styleFrom(
-      backgroundColor: bgColor,
-      foregroundColor: fgColor,
-      disabledBackgroundColor: bgColor.withValues(alpha: 0.5),
-      disabledForegroundColor: fgColor.withValues(alpha: 0.5),
-      padding: padding ?? _defaultPadding,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? AppTheme.radiusMd),
-      ),
-      textStyle: _labelStyle,
-    );
-
+    Widget buttonContent;
     if (icon != null && _hasIcon) {
-      return iconLeading
-          ? ElevatedButton.icon(
-              onPressed: _isEnabled ? onPressed : null,
-              style: style,
-              icon: icon,
-              label: Text(label),
+      buttonContent = iconLeading
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                icon,
+                const SizedBox(width: AppTheme.spacingSm),
+                Text(label, style: _labelStyle.copyWith(color: fgColor)),
+              ],
             )
-          : ElevatedButton(
-              onPressed: _isEnabled ? onPressed : null,
-              style: style,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(label),
-                  const SizedBox(width: AppTheme.spacingSm),
-                  icon,
-                ],
-              ),
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(label, style: _labelStyle.copyWith(color: fgColor)),
+                const SizedBox(width: AppTheme.spacingSm),
+                icon,
+              ],
             );
-    }
-
-    return ElevatedButton(
-      onPressed: _isEnabled ? onPressed : null,
-      style: style,
-      child: isLoading
+    } else {
+      buttonContent = isLoading
           ? Loading(
               inline: true,
               size: _iconSize,
               strokeWidth: 2.0,
               color: fgColor,
             )
-          : Text(label),
+          : Text(label, style: _labelStyle.copyWith(color: fgColor));
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: _isEnabled
+              ? [bgColor, bgColor.withValues(alpha: 0.8)]
+              : [
+                  bgColor.withValues(alpha: 0.5),
+                  bgColor.withValues(alpha: 0.4),
+                ],
+        ),
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow: _isEnabled
+            ? [
+                BoxShadow(
+                  color: bgColor.withValues(alpha: 0.4),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : null,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: _isEnabled ? onPressed : null,
+          borderRadius: BorderRadius.circular(radius),
+          splashColor: Colors.white.withValues(alpha: 0.2),
+          highlightColor: Colors.white.withValues(alpha: 0.1),
+          child: Padding(
+            padding: padding ?? _defaultPadding,
+            child: Center(child: buttonContent),
+          ),
+        ),
+      ),
     );
   }
 
