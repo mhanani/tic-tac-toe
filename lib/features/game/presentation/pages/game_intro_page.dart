@@ -5,7 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:tic_tac_toe/core/extensions/extensions.dart';
 import 'package:tic_tac_toe/core/router/app_router.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_button.dart';
 import 'package:tic_tac_toe/core/ui/widgets/custom_dialog.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_icon.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_tile.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/ai_difficulty.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/game.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/game_mode.dart';
@@ -45,10 +48,10 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
       appBar: AppBar(
         backgroundColor: AppTheme.transparent,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
+          CustomIcon.icon(
+            Icons.settings,
             tooltip: context.l10n.settings,
-            onPressed: () => context.push(AppRoutes.settings),
+            onTap: () => context.push(AppRoutes.settings),
           ),
         ],
       ),
@@ -69,27 +72,29 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
               const SizedBox(height: AppTheme.spacingXxl),
 
               // Game mode buttons
-              _GameModeButton(
-                icon: Icons.people,
-                title: context.l10n.playerVsPlayer,
+              CustomTile(
+                iconData: Icons.people,
+                label: context.l10n.playerVsPlayer,
                 subtitle: context.l10n.playerVsPlayerSubtitle,
+                showChevron: true,
                 onTap: _startPlayerVsPlayer,
               ),
               const SizedBox(height: AppTheme.spacingMd),
-              _GameModeButton(
-                icon: Icons.smart_toy,
-                title: context.l10n.playerVsAi,
+              CustomTile(
+                iconData: Icons.smart_toy,
+                label: context.l10n.playerVsAi,
                 subtitle: context.l10n.playerVsAiSubtitle,
+                showChevron: true,
                 onTap: _showDifficultyDialog,
               ),
               const Spacer(flex: 2),
 
               // Reset scores button
               if (game.xWins > 0 || game.oWins > 0 || game.draws > 0)
-                TextButton.icon(
+                CustomButton.text(
+                  label: context.l10n.resetScores,
+                  iconData: Icons.refresh,
                   onPressed: () => _showResetDialog(),
-                  icon: const Icon(Icons.refresh),
-                  label: Text(context.l10n.resetScores),
                 ),
             ],
           ),
@@ -117,18 +122,20 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
       builder: (context) => CustomDialog(
         title: l10n.selectDifficulty,
         children: [
-          _DifficultyOption(
-            title: l10n.difficultyChill,
+          CustomTile(
+            label: l10n.difficultyChill,
             subtitle: l10n.difficultyChillSubtitle,
+            showChevron: true,
             onTap: () {
               Navigator.pop(context);
               _startPlayerVsAi(AiDifficulty.chill);
             },
           ),
           const SizedBox(height: AppTheme.spacingSm),
-          _DifficultyOption(
-            title: l10n.difficultyExpert,
+          CustomTile(
+            label: l10n.difficultyExpert,
             subtitle: l10n.difficultyExpertSubtitle,
+            showChevron: true,
             onTap: () {
               Navigator.pop(context);
               _startPlayerVsAi(AiDifficulty.expert);
@@ -148,16 +155,16 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
         title: Text(l10n.resetScoresTitle),
         content: Text(l10n.resetScoresMessage),
         actions: [
-          TextButton(
+          CustomButton.text(
+            label: l10n.cancel,
             onPressed: () => Navigator.pop(context),
-            child: Text(l10n.cancel),
           ),
-          ElevatedButton(
+          CustomButton.primary(
+            label: l10n.reset,
             onPressed: () {
               ref.read(gameProvider.notifier).resetAll();
               Navigator.pop(context);
             },
-            child: Text(l10n.reset),
           ),
         ],
       ),
@@ -183,17 +190,18 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
           Row(
             children: [
               Expanded(
-                child: TextButton(
+                child: CustomButton.text(
+                  label: l10n.delete,
                   onPressed: () {
                     ref.read(gameProvider.notifier).clearSavedGame();
                     Navigator.pop(dialogContext);
                   },
-                  child: Text(l10n.delete),
                 ),
               ),
               const SizedBox(width: AppTheme.spacingSm),
               Expanded(
-                child: ElevatedButton(
+                child: CustomButton.primary(
+                  label: l10n.resume,
                   onPressed: () async {
                     Navigator.pop(dialogContext);
                     await ref.read(gameProvider.notifier).loadSavedGame();
@@ -201,112 +209,11 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
                       router.go(AppRoutes.game);
                     }
                   },
-                  child: Text(l10n.resume),
                 ),
               ),
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _GameModeButton extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
-
-  const _GameModeButton({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppTheme.cardColor,
-      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-        child: Padding(
-          padding: const EdgeInsets.all(AppTheme.spacingMd),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppTheme.spacingSm),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-                ),
-                child: Icon(icon, color: AppTheme.primaryColor, size: 28),
-              ),
-              const SizedBox(width: AppTheme.spacingMd),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: AppTheme.headingSmall),
-                    Text(subtitle, style: AppTheme.bodyMedium),
-                  ],
-                ),
-              ),
-              const Icon(Icons.chevron_right, color: AppTheme.textSecondary),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _DifficultyOption extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
-
-  const _DifficultyOption({
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppTheme.cardColor,
-      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppTheme.spacingMd,
-            vertical: AppTheme.spacingSm,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: AppTheme.bodyLarge),
-                    Text(subtitle, style: AppTheme.bodyMedium),
-                  ],
-                ),
-              ),
-              const Icon(
-                Icons.chevron_right,
-                color: AppTheme.textSecondary,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

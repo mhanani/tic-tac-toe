@@ -5,7 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tic_tac_toe/core/extensions/extensions.dart';
 import 'package:tic_tac_toe/core/router/app_router.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
-import 'package:tic_tac_toe/core/ui/widgets/widgets.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_icon.dart';
+import 'package:tic_tac_toe/core/ui/widgets/loading.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
 import 'package:tic_tac_toe/features/game/presentation/widgets/widgets.dart';
@@ -20,16 +21,16 @@ class GamePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go(AppRoutes.home),
+        leading: CustomIcon.icon(
+          Icons.arrow_back,
+          onTap: () => context.go(AppRoutes.home),
         ),
         title: Text(game.mode.localizedName(context)),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(gameProvider.notifier).resetGame(),
+          CustomIcon.icon(
+            Icons.refresh,
             tooltip: context.l10n.newGame,
+            onTap: () => ref.read(gameProvider.notifier).resetGame(),
           ),
         ],
       ),

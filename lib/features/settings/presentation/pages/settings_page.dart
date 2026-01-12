@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:tic_tac_toe/core/extensions/extensions.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_icon.dart';
 import 'package:tic_tac_toe/features/settings/domain/entities/app_locale.dart';
 import 'package:tic_tac_toe/features/settings/presentation/providers/settings_provider.dart';
 import 'package:tic_tac_toe/features/settings/presentation/widgets/language_tile.dart';
@@ -19,10 +20,7 @@ class SettingsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
+        leading: CustomIcon.icon(Icons.arrow_back, onTap: () => context.pop()),
         title: Text(l10n.settings),
       ),
       body: SafeArea(

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tic_tac_toe/core/extensions/extensions.dart';
 import 'package:tic_tac_toe/core/router/app_router.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_button.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_icon.dart';
 import 'package:tic_tac_toe/features/game/domain/entities/entities.dart';
 import 'package:tic_tac_toe/features/game/presentation/providers/game_provider.dart';
 import 'package:tic_tac_toe/features/game/presentation/widgets/widgets.dart';
@@ -61,19 +63,19 @@ class GameOverPage extends ConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          OutlinedButton.icon(
+                          CustomButton.secondary(
+                            label: context.l10n.home,
+                            iconData: Icons.home,
                             onPressed: () => context.go(AppRoutes.home),
-                            icon: const Icon(Icons.home),
-                            label: Text(context.l10n.home),
                           ),
                           const SizedBox(width: AppTheme.spacingMd),
-                          ElevatedButton.icon(
+                          CustomButton.primary(
+                            label: context.l10n.playAgain,
+                            iconData: Icons.replay,
                             onPressed: () {
                               ref.read(gameProvider.notifier).resetGame();
                               context.go(AppRoutes.game);
                             },
-                            icon: const Icon(Icons.replay),
-                            label: Text(context.l10n.playAgain),
                           ),
                         ],
                       ),
@@ -128,7 +130,7 @@ class _GameResult extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: color.withValues(alpha: 0.3), width: 3),
           ),
-          child: Icon(icon, size: 64, color: color),
+          child: CustomIcon(iconData: icon, size: 64, color: color),
         ),
         const SizedBox(height: AppTheme.spacingLg),
         Text(title, style: AppTheme.headingLarge.copyWith(color: color)),

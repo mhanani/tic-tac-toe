@@ -16,6 +16,35 @@ A Flutter Tic Tac Toe game built with Riverpod.
 
 This project follows **Clean Architecture** with a feature-based folder structure.
 
+### Folder Structure
+
+```
+lib/
+├── main.dart
+├── app.dart
+├── constants/                          # App-wide constants
+├── core/
+│   ├── extensions/                    # BuildContext extensions (l10n)
+│   ├── l10n/                          # Localization (ARB files + generated)
+│   ├── observer/                      # Riverpod & Navigator observers
+│   ├── providers/                     # Core providers (SharedPreferences)
+│   ├── router/                        # GoRouter configuration
+│   ├── theme/                         # Design system
+│   ├── ui/
+│   │   ├── widgets/                   # Shared UI components (loading, dialogs, etc.)
+│   │   └── animations/                # Shared animations
+│   └── utils/                         # Logger and utilities
+└── features/
+    ├── game/
+    │   ├── data/                      # Models, repositories, datasources
+    │   ├── domain/                    # Entities, use cases, repository interfaces
+    │   └── presentation/              # Pages, widgets, providers
+    └── settings/
+        ├── data/                      # Settings repository, datasource
+        ├── domain/                    # AppLocale entity, repository interface
+        └── presentation/              # Settings page, providers, widgets
+```
+
 ### Architecture Diagram
 
 ```mermaid
@@ -81,35 +110,6 @@ sequenceDiagram
     R-->>UC: Return Entity
     UC-->>P: Return Result
     P-->>UI: Update State
-```
-
-### Folder Structure
-
-```
-lib/
-├── main.dart
-├── app.dart
-├── constants/                          # App-wide constants
-├── core/
-│   ├── extensions/                    # BuildContext extensions (l10n)
-│   ├── l10n/                          # Localization (ARB files + generated)
-│   ├── observer/                      # Riverpod & Navigator observers
-│   ├── providers/                     # Core providers (SharedPreferences)
-│   ├── router/                        # GoRouter configuration
-│   ├── theme/                         # Design system
-│   ├── ui/
-│   │   ├── widgets/                   # Shared UI components (loading, dialogs, etc.)
-│   │   └── animations/                # Shared animations
-│   └── utils/                         # Logger and utilities
-└── features/
-    ├── game/
-    │   ├── data/                      # Models, repositories, datasources
-    │   ├── domain/                    # Entities, use cases, repository interfaces
-    │   └── presentation/              # Pages, widgets, providers
-    └── settings/
-        ├── data/                      # Settings repository, datasource
-        ├── domain/                    # AppLocale entity, repository interface
-        └── presentation/              # Settings page, providers, widgets
 ```
 
 ### Key Architectural Decisions

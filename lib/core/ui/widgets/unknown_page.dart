@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tic_tac_toe/core/extensions/extensions.dart';
 import 'package:tic_tac_toe/core/router/app_router.dart';
 import 'package:tic_tac_toe/core/theme/app_theme.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_button.dart';
+import 'package:tic_tac_toe/core/ui/widgets/custom_icon.dart';
 
 /// Page displayed when a route is not found
 class UnknownPage extends StatelessWidget {
@@ -23,8 +25,8 @@ class UnknownPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
-                  Icons.explore_off,
+                const CustomIcon(
+                  iconData: Icons.explore_off,
                   size: 80,
                   color: AppTheme.textSecondary,
                 ),
@@ -38,10 +40,10 @@ class UnknownPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 const SizedBox(height: AppTheme.spacingXl),
-                ElevatedButton.icon(
+                CustomButton.primary(
+                  label: l10n.goHome,
+                  iconData: Icons.home,
                   onPressed: () => context.go(AppRoutes.home),
-                  icon: const Icon(Icons.home),
-                  label: Text(l10n.goHome),
                 ),
               ],
             ),
