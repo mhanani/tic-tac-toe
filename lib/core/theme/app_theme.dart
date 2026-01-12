@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
+  // Font families
+  static const String fontFamily = 'Nunito';
+  static const String fontFamilyMarker = 'PermanentMarker';
+
   // Colors
   static const Color primaryColor = Color(0xFF6366F1);
   static const Color secondaryColor = Color(0xFF8B5CF6);
@@ -33,6 +37,7 @@ class AppTheme {
 
   // Text styles
   static const TextStyle headingLarge = TextStyle(
+    fontFamily: fontFamily,
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: textPrimary,
@@ -40,30 +45,35 @@ class AppTheme {
   );
 
   static const TextStyle headingMedium = TextStyle(
+    fontFamily: fontFamily,
     fontSize: 24,
     fontWeight: FontWeight.w600,
     color: textPrimary,
   );
 
   static const TextStyle headingSmall = TextStyle(
+    fontFamily: fontFamily,
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: textPrimary,
   );
 
   static const TextStyle bodyLarge = TextStyle(
+    fontFamily: fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.normal,
     color: textPrimary,
   );
 
   static const TextStyle bodyMedium = TextStyle(
+    fontFamily: fontFamily,
     fontSize: 14,
     fontWeight: FontWeight.normal,
     color: textSecondary,
   );
 
   static const TextStyle labelLarge = TextStyle(
+    fontFamily: fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.w600,
     color: textPrimary,
@@ -73,6 +83,7 @@ class AppTheme {
   static ThemeData get theme => ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
+    fontFamily: fontFamily,
     scaffoldBackgroundColor: backgroundColor,
     colorScheme: const ColorScheme.dark(
       primary: primaryColor,

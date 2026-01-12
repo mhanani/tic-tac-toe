@@ -62,7 +62,13 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
             children: [
               const Spacer(),
               // Title
-              Text(context.l10n.appTitle, style: AppTheme.headingLarge),
+              Text(
+                context.l10n.appTitle,
+                style: const TextStyle(
+                  fontFamily: AppTheme.fontFamilyMarker,
+                  fontSize: 52,
+                ),
+              ),
               const SizedBox(height: AppTheme.spacingSm),
               Text(context.l10n.chooseGameMode, style: AppTheme.bodyMedium),
               const SizedBox(height: AppTheme.spacingXxl),
@@ -150,21 +156,30 @@ class _GameIntroPageState extends ConsumerState<GameIntroPage> {
     final l10n = context.l10n;
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppTheme.surfaceColor,
-        title: Text(l10n.resetScoresTitle),
-        content: Text(l10n.resetScoresMessage),
-        actions: [
-          CustomButton.text(
-            label: l10n.cancel,
-            onPressed: () => Navigator.pop(context),
-          ),
-          CustomButton.primary(
-            label: l10n.reset,
-            onPressed: () {
-              ref.read(gameProvider.notifier).resetAll();
-              Navigator.pop(context);
-            },
+      builder: (context) => CustomDialog(
+        title: l10n.resetScoresTitle,
+        children: [
+          Text(l10n.resetScoresMessage, style: AppTheme.bodyMedium),
+          const SizedBox(height: AppTheme.spacingLg),
+          Row(
+            children: [
+              Expanded(
+                child: CustomButton.text(
+                  label: l10n.cancel,
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              const SizedBox(width: AppTheme.spacingSm),
+              Expanded(
+                child: CustomButton.primary(
+                  label: l10n.reset,
+                  onPressed: () {
+                    ref.read(gameProvider.notifier).resetAll();
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),

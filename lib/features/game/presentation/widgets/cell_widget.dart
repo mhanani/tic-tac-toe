@@ -44,8 +44,8 @@ class CellWidget extends StatelessWidget {
                     player.symbol,
                     key: ValueKey(player),
                     style: TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: AppTheme.fontFamilyMarker,
+                      fontSize: 58,
                       color: player.color!,
                     ),
                   ),
